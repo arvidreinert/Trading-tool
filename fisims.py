@@ -14,12 +14,12 @@ class sim():
         print(f"Portfolio   {datetime.now().strftime("%Y_%m_%d %H:%M:%S")}")
         print("cash:"+str(round(self.cash,3)))
         for stock in self.stocks:
-            base = f"\n{stock}:"
+            base = f"\n{stock}  {self.stocks[stock]["amount"]}:"
             c = 1
             for order in self.stocks[stock]["orders"]:
                 base+=f"\n  order ({c})\n\t"
                 gain = (order["pwb"]-fd.search_comp(stock))*order["amount"]*order["kind"]
-                base+=f"amount:{order["amount"]}, kind:{"long" if order["kind"]== 1 else "short"}, {"gain" if gain >= 0 else "loss"}:{gain}"
+                base+=f"amount:{order["amount"]}, kind:{"long" if order["kind"] == 1 else "short" if order["kind"] == -1 else "sell"}, {"gain" if gain >= 0 else "loss"}:{gain}"
                 c += 1
             print(base)
             
@@ -40,7 +40,22 @@ class sim():
         return "order completed with "+str(dlay)+" seconds of delay; price: "+str(fd.search_comp(symbol))
     
     def sell_order(self,symbol,amount,kind="long"):
-        pass
+        if self.stocks[symbol]["amount"] >= 1:
+            if kind == "long":
+                kind = 1
+            else:
+                kind = -1
+            dlay = round(uniform(0,2), 2)
+            sleep(dlay)
+            self.stocks[symbol]["amount"] -= amount
+            self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":fd.search_comp(symbol)})
+            if kind == 1:
+                self.cash += amount * fd.search_comp(symbol)
+            else:
+                self.cash += amount * fd.search_comp(symbol)
+                self.cash -= amount*0.05
+        else:
+            del self.stocks[symbol]
 
     def save_sim(self,filename):
         with open(f"{filename}.txt", mode ='w')as file:
@@ -63,7 +78,3 @@ simulator = sim(100)
 simulator.buy_order("AAPL",1)
 simulator.buy_order("GOOG",7)
 simulator.buy_order("AAPL",5,kind="short")
-simulator.portfolio()
-simulator.save_sim("test")
-simulator.load_sim("test")
-simulator.portfolio()
