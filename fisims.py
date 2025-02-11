@@ -24,23 +24,30 @@ class sim():
             print(base)
             
     def buy_order(self,symbol,amount,kind="long"):
+        if not symbol in self.stocks:
+            self.stocks[symbol] = {"amount":0,"longs":0,"shorts":0,"orders":[]}
         if kind == "long":
+            self.stocks[symbol]["longs"] += amount
             kind = 1
         else:
+            self.stocks[symbol]["shorts"] += amount
             kind = -1
-        if not symbol in self.stocks:
-            self.stocks[symbol] = {"amount":0,"orders":[]}
 
         dlay = round(uniform(0,2), 2)
         sleep(dlay)
         self.stocks[symbol]["orders"].append({"amount":amount,"kind":kind,"pwb":fd.search_comp(symbol)})
         self.stocks[symbol]["amount"] += amount
-        if kind == 1:
-            self.cash -= amount * fd.search_comp(symbol)
+        self.cash -= amount * fd.search_comp(symbol)
+
         return "order completed with "+str(dlay)+" seconds of delay; price: "+str(fd.search_comp(symbol))
     
     def sell_order(self,symbol,amount,kind="long"):
-        if self.stocks[symbol]["amount"] >= 1:
+        cond = False
+        if kind == "long" and self.stocks[symbol]["longs"] >= amount:
+            cond = True
+        if kind == "short" and self.stocks[symbol]["shorts"] >= amount:
+            cond = True
+        if cond:
             if kind == "long":
                 kind = 1
             else:
@@ -54,7 +61,7 @@ class sim():
             else:
                 self.cash += amount * fd.search_comp(symbol)
                 self.cash -= amount*0.05
-        else:
+        if self.stocks[symbol]["amount"] == 0:
             del self.stocks[symbol]
 
     def save_sim(self,filename):
@@ -76,5 +83,11 @@ chunk.save_data(symbol)"""
 
 simulator = sim(100)
 simulator.buy_order("AAPL",1)
+simulator.buy_order("AAPL",5,"short")
+simulator.sell_order("AAPL",1)
+simulator.sell_order("AAPL",5,"short")
 simulator.buy_order("GOOG",7)
-simulator.buy_order("AAPL",5,kind="short")
+simulator.sell_order("GOOG",7)
+simulator.portfolio()
+simulator.save_sim("test")
+simulator.load_sim("test")
