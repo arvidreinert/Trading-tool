@@ -13,13 +13,18 @@ class sim():
 
     def pay_dividends(self,filename):
         now = datetime.now().strftime('%Y-%m-%d')
+        print(now)
         for stock in self.stocks:
+            print(True)
             date,divs = fd.get_dividends(stock)
+            print(stock,date,divs)
             if date is None:
                 continue
             if now != self.last_login and now == date:
+                print(self.cash)
                 self.cash -= divs*self.stocks[stock]["shorts"]
                 self.cash += divs*self.stocks[stock]["longs"]
+                print(self.cash)
         self.save_sim(filename)
 
     def portfolio(self):
@@ -104,10 +109,6 @@ chunk.add_symbol(symbol)
 chunk.save_data(symbol)"""
 
 simulator = sim(100)
-simulator.buy_order("AAPL",1)
-simulator.buy_order("AAPL",5,"short")
-simulator.sell_order("AAPL",1)
-simulator.sell_order("AAPL",1,"short")
-simulator.portfolio()
-simulator.sell_order("AAPL",4,"short")
+simulator.buy_order("AAPL",50)
+simulator.pay_dividends("test")
 simulator.portfolio()

@@ -4,7 +4,6 @@ import pandas as pd
 
 def search_comp(ticker_symbol):
     ticker = yf.Ticker(ticker_symbol)
-    print(ticker.dividends.index[-1])
     try:
         current_price = ticker.history(period="1d")['Close'].iloc[-1]
     except:
@@ -13,6 +12,7 @@ def search_comp(ticker_symbol):
 
 def get_dividends(ticker_symbol):
     ticker = yf.Ticker(ticker_symbol)
+    print(ticker.dividends)
     if ticker.dividends.empty:
         return None, 0
     date = ticker.dividends.index[-1]
