@@ -49,8 +49,10 @@ class sim():
             cond = True
         if cond:
             if kind == "long":
+                self.stocks[symbol]["longs"] -= amount
                 kind = 1
             else:
+                self.stocks[symbol]["shorts"] -= amount
                 kind = -1
             dlay = round(uniform(0,2), 2)
             sleep(dlay)
