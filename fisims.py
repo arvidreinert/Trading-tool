@@ -14,11 +14,15 @@ class sim():
         print(f"Portfolio   {datetime.now().strftime("%Y_%m_%d %H:%M:%S")}")
         print("cash:"+str(round(self.cash,3)))
         for stock in self.stocks:
-            base = f"\n{stock}  {self.stocks[stock]["amount"]}:"
+            base = f"\n{stock}  {self.stocks[stock]["amount"]}: longs: {self.stocks[stock]["longs"]}, shorts: {self.stocks[stock]["shorts"]} :"
             c = 1
             for order in self.stocks[stock]["orders"]:
                 base+=f"\n  order ({c})\n\t"
-                gain = (order["pwb"]-fd.search_comp(stock))*order["amount"]*order["kind"]
+                v = 0
+                if order["kind"] == 0:
+                    if order["is_short"]:
+                        v = order["amount"]*0.05
+                gain = (order["pwb"]-fd.search_comp(stock))*order["amount"]*order["kind"]-v
                 base+=f"amount:{order["amount"]}, kind:{"long" if order["kind"] == 1 else "short" if order["kind"] == -1 else "sell"}, {"gain" if gain >= 0 else "loss"}:{gain}"
                 c += 1
             print(base)
@@ -42,6 +46,8 @@ class sim():
         return "order completed with "+str(dlay)+" seconds of delay; price: "+str(fd.search_comp(symbol))
     
     def sell_order(self,symbol,amount,kind="long"):
+        dlay = round(uniform(0,2), 2)
+        kl = kind=="short"
         cond = False
         if kind == "long" and self.stocks[symbol]["longs"] >= amount:
             cond = True
@@ -54,10 +60,9 @@ class sim():
             else:
                 self.stocks[symbol]["shorts"] -= amount
                 kind = -1
-            dlay = round(uniform(0,2), 2)
             sleep(dlay)
             self.stocks[symbol]["amount"] -= amount
-            self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":fd.search_comp(symbol)})
+            self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":fd.search_comp(symbol),"is_short":kl})
             if kind == 1:
                 self.cash += amount * fd.search_comp(symbol)
             else:
@@ -65,6 +70,7 @@ class sim():
                 self.cash -= amount*0.05
         if self.stocks[symbol]["amount"] == 0:
             del self.stocks[symbol]
+        return "order completed with "+str(dlay)+" seconds of delay; price: "+str(fd.search_comp(symbol))
 
     def save_sim(self,filename):
         with open(f"{filename}.txt", mode ='w')as file:
@@ -87,9 +93,7 @@ simulator = sim(100)
 simulator.buy_order("AAPL",1)
 simulator.buy_order("AAPL",5,"short")
 simulator.sell_order("AAPL",1)
-simulator.sell_order("AAPL",5,"short")
-simulator.buy_order("GOOG",7)
-simulator.sell_order("GOOG",7)
+simulator.sell_order("AAPL",1,"short")
 simulator.portfolio()
-simulator.save_sim("test")
-simulator.load_sim("test")
+simulator.sell_order("AAPL",4,"short")
+simulator.portfolio()
