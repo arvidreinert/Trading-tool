@@ -3,6 +3,7 @@ from datetime import datetime
 import finance_data as fd
 from time import sleep
 from random import uniform
+import ast
 
 class sim():
     def __init__(self,cash):
@@ -41,6 +42,17 @@ class sim():
     def sell_order(self,symbol,amount,kind="long"):
         pass
 
+    def save_sim(self,filename):
+        with open(f"{filename}.txt", mode ='w')as file:
+            file.write(f"stocks={self.stocks}\ncash={self.cash}")
+
+    def load_sim(self,filename):
+        with open(f"{filename}.txt", mode ='r')as file:
+            t = file.read().split("\n")
+            self.stocks = ast.literal_eval(t[0].split("=")[1])
+            self.cash = float(t[1].split("=")[1])
+
+
 """symbol = "VSE"
 chunk = rd.data_chunk()
 fd.create_data(symbol, interval="1h",duration={ "days": 3,"hours": 0,"minutes": 0,"seconds": 0 })
@@ -51,4 +63,7 @@ simulator = sim(100)
 simulator.buy_order("AAPL",1)
 simulator.buy_order("GOOG",7)
 simulator.buy_order("AAPL",5,kind="short")
+simulator.portfolio()
+simulator.save_sim("test")
+simulator.load_sim("test")
 simulator.portfolio()
