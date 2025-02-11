@@ -13,6 +13,8 @@ def search_comp(ticker_symbol):
 
 def get_dividends(ticker_symbol):
     ticker = yf.Ticker(ticker_symbol)
+    if ticker.dividends.empty:
+        return None, 0
     date = ticker.dividends.index[-1]
     div_amount = ticker.dividends.iloc[-1]
     return date.strftime('%Y-%m-%d'),div_amount

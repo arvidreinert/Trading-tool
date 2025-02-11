@@ -15,6 +15,8 @@ class sim():
         now = datetime.now().strftime('%Y-%m-%d')
         for stock in self.stocks:
             date,divs = fd.get_dividends(stock)
+            if date is None:
+                continue
             if now != self.last_login and now == date:
                 self.cash -= divs*self.stocks[stock]["shorts"]
                 self.cash += divs*self.stocks[stock]["longs"]
