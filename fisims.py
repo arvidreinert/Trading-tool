@@ -9,6 +9,16 @@ class sim():
     def __init__(self,cash):
         self.stocks = {}
         self.cash = cash
+        self.last_login = ""
+
+    def pay_dividends(self,filename):
+        now = datetime.now().strftime('%Y-%m-%d')
+        for stock in self.stocks:
+            date,divs = fd.get_dividends(stock)
+            if now != self.last_login and now == date:
+                self.cash -= divs*self.stocks[stock]["shorts"]
+                self.cash += divs*self.stocks[stock]["longs"]
+        self.save_sim(filename)
 
     def portfolio(self):
         print(f"Portfolio   {datetime.now().strftime("%Y_%m_%d %H:%M:%S")}")
@@ -74,13 +84,15 @@ class sim():
 
     def save_sim(self,filename):
         with open(f"{filename}.txt", mode ='w')as file:
-            file.write(f"stocks={self.stocks}\ncash={self.cash}")
+            file.write(f"stocks={self.stocks}\ncash={self.cash}\n{str(datetime.now().strftime('%Y-%m-%d'))}")
 
     def load_sim(self,filename):
         with open(f"{filename}.txt", mode ='r')as file:
             t = file.read().split("\n")
             self.stocks = ast.literal_eval(t[0].split("=")[1])
             self.cash = float(t[1].split("=")[1])
+            self.last_login = t[2]
+
 
 
 """symbol = "VSE"
