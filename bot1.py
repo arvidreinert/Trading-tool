@@ -24,7 +24,7 @@ class sma_daytrader_bot():
     def signal(self,stock,bought=False):
         self.refresh_symbol(stock)
         sma = self.chunk.sma(stock)
-        #print(self.chunk.get_data(stock,"volumes")[-1],fd.search_comp(stock))
+        print(fd.search_comp(stock),sma)
 
 bot = sma_daytrader_bot(["AAPL"])
 simulator = sim(10)
