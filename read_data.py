@@ -39,8 +39,8 @@ class data_chunk():
             return "error:symbol or statistic not found"
         
     def max_volume(self,symbol):
-        finance_data.create_data(symbol,save_as_file=True)
-        print(finance_data.data_block[symbol]["Volume"].iloc[-1],True)
+        h = finance_data.fast_tabel(symbol)
+        print(h["Volume"])
     
     def get_data(self,symbol,statistic):
         if statistic in list(self.symbols[symbol]):

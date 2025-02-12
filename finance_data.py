@@ -1,7 +1,6 @@
 import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
-data_block = {}
 def search_comp(ticker_symbol):
     ticker = yf.Ticker(ticker_symbol)
     try:
@@ -19,7 +18,11 @@ def get_dividends(ticker_symbol):
     div_amount = ticker.dividends.iloc[-1]
     return date.strftime('%Y-%m-%d'),div_amount
 
-def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0}, interval="1h", in_past={"days":0, "hours":0, "minutes":0, "seconds":0},save_as_file=False):
+def fast_tabel(symbol,interval="1h"):
+    ticker = yf.Ticker(symbol)
+    return ticker.history(period=interval)
+
+def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0}, interval="1h", in_past={"days":0, "hours":0, "minutes":0, "seconds":0}):
 
     duration_delta = timedelta(days=duration["days"], hours=duration["hours"],minutes=duration["minutes"], seconds=duration["seconds"])
     
@@ -32,15 +35,13 @@ def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0
     end_date_yf = end_date.strftime("%Y-%m-%d")
     print(start_date,end_date)
     data = yf.download(symbol, start=start_date_yf, end=end_date_yf, interval=interval)
-    data_block[symbol] = data
-    if save_as_file:
-        if len(data) == 0:
-            print(f"No data downloaded for {symbol} between {start_date_yf} and {end_date_yf}")
-            return
-        filename = f"historic_data_{symbol}.csv"
-        if isinstance(data.columns, pd.MultiIndex):
-            data.columns = data.columns.droplevel(0)  
-        if len(symbol.split()) == 1:
-            data.columns = ["Open", "High", "Low", "Close", "Volume"]
+    if len(data) == 0:
+        print(f"No data downloaded for {symbol} between {start_date_yf} and {end_date_yf}")
+        return
+    filename = f"historic_data_{symbol}.csv"
+    if isinstance(data.columns, pd.MultiIndex):
+        data.columns = data.columns.droplevel(0)  
+    if len(symbol.split()) == 1:
+        data.columns = ["Open", "High", "Low", "Close", "Volume"]
 
-        data.to_csv(filename, index=True)
+    data.to_csv(filename, index=True)

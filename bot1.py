@@ -11,10 +11,6 @@ class sma_bot():
             self.boughts[stock] = 0
 
     def signal(bought=False):
-        fd.create_data("AAPL",save_as_file=True)
-        chunk.add_symbol("AAPL")
-        chunk.save_data("AAPL")
-        sma = chunk.sma("AAPL")
         chunk.max_volume("AAPL")
 
 bot = sma_bot(["AAPL"])
