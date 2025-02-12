@@ -50,3 +50,6 @@ class data_chunk():
     
     def up_to_date_price(self,symbol):
         return finance_data.search_comp(symbol)
+    
+    def excpected_dividends(self,symbol):
+        return finance_data.get_dividends(symbol)
