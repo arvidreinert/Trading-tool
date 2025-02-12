@@ -1,7 +1,6 @@
 import read_data as rd
 import finance_data as fd
 from fisims import sim
-import time
 
 class sma_daytrader_bot():
     def __init__(self,stocks_allowed):

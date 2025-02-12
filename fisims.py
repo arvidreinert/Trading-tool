@@ -116,14 +116,3 @@ class sim():
             return self.sell_order(symbol,amount,kind)
         if order_type == "hold":
             pass
-
-"""symbol = "VSE"
-chunk = rd.data_chunk()
-fd.create_data(symbol, interval="1h",duration={ "days": 3,"hours": 0,"minutes": 0,"seconds": 0 })
-chunk.add_symbol(symbol)
-chunk.save_data(symbol)
-
-simulator = sim(100)
-simulator.buy_order("AAPL",50)
-simulator.pay_dividends("test")
-simulator.portfolio()"""
