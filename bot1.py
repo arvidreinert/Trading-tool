@@ -11,7 +11,8 @@ class sma_bot():
             self.boughts[stock] = 0
 
     def signal(bought=False):
-        chunk.max_volume("AAPL")
+        max_v,current_c = chunk.max_volume("AAPL")
+        print(max_v,current_c)
 
 bot = sma_bot(["AAPL"])
 bot.signal()

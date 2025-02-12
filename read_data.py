@@ -40,7 +40,8 @@ class data_chunk():
         
     def max_volume(self,symbol):
         h = finance_data.fast_tabel(symbol)
-        print(h["Volume"])
+        h = h["Volume"]
+        return max(h),h.iloc[-1]
     
     def get_data(self,symbol,statistic):
         if statistic in list(self.symbols[symbol]):
