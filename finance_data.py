@@ -37,13 +37,12 @@ def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0
     print(start_date,end_date)
     ticker = yf.Ticker(symbol)
     h = ticker.history(start=start_date_yf, end=end_date_yf, interval=interval)
-    data = yf.download(symbol, start=start_date_yf, end=end_date_yf, interval=interval)
+    if len(h) == 0:
+        print(f"No data downloaded for {symbol} between {start_date_yf} and {end_date_yf}")
+        return
     filename = f"historic_data_{symbol}.csv"
     h.to_csv(filename)
     """
-    if len(data) == 0:
-        print(f"No data downloaded for {symbol} between {start_date_yf} and {end_date_yf}")
-        return
     filename = f"historic_data_{symbol}.csv"
     if isinstance(data.columns, pd.MultiIndex):
         data.columns = data.columns.droplevel(0)  
