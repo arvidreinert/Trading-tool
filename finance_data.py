@@ -42,11 +42,3 @@ def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0
         return
     filename = f"historic_data_{symbol}.csv"
     h.to_csv(filename)
-    """
-    filename = f"historic_data_{symbol}.csv"
-    if isinstance(data.columns, pd.MultiIndex):
-        data.columns = data.columns.droplevel(0)  
-    if len(symbol.split()) == 1:
-        data.columns = ["Open", "High", "Low", "Close", "Volume"]
-
-    data.to_csv(filename, index=True)"""
