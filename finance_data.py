@@ -1,6 +1,7 @@
 import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
+
 def search_comp(ticker_symbol):
     ticker = yf.Ticker(ticker_symbol)
     try:

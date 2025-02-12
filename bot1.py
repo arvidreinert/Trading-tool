@@ -2,17 +2,17 @@ import read_data as rd
 import finance_data as fd
 from fisims import sim
 
-chunk = rd.data_chunk()
-simulator = sim(10)
 class sma_bot():
     def __init__(self,stocks):
+        self.chunk = rd.data_chunk()
         self.boughts = {}
         for stock in stocks:
+            self.chunk.add_symbol(stock)
             self.boughts[stock] = 0
 
     def signal(bought=False):
-        max_v,current_c = chunk.max_volume("AAPL")
-        print(max_v,current_c)
+        pass
 
 bot = sma_bot(["AAPL"])
+simulator = sim(10)
 bot.signal()

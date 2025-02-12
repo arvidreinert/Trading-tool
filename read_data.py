@@ -4,18 +4,11 @@ import finance_data
 class data_chunk():
     def __init__(self):
         self.symbols = {}
-        self.prices = []
-        self.closes = []
-        self.highs = []
-        self.lows = []
-        self.opens = []
-        self.volumes = []
-        self.datetimes =[]
 
     def add_symbol(self,symbol):
         self.symbols[symbol] = {"datetimes":[], 'closes':[], 'highs':[], 'lows':[], 'opens':[], 'volumes':[]}
 
-    def save_data(self,symbol):
+    def prepare_data(self,symbol):
         with open(f"historic_data_{symbol}.csv", mode ='r')as file:
             content = csv.reader(file)
             x = 0
