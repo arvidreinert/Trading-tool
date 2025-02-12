@@ -1,5 +1,6 @@
 import csv
 import finance_data
+import yfinance as yf
 
 class data_chunk():
     def __init__(self):
@@ -46,7 +47,24 @@ class data_chunk():
         return self.symbols[symbol]
     
     def up_to_date_price(self,symbol):
-        return finance_data.search_comp(symbol)
+        return self.__search_comp(symbol)
     
     def excpected_dividends(self,symbol):
-        return finance_data.get_dividends(symbol)
+        return self.__get_dividends(symbol)
+    
+    def __search_comp(self,ticker_symbol):
+        ticker = yf.Ticker(ticker_symbol)
+        try:
+            current_price = ticker.history(period="1d")['Close'].iloc[-1]
+        except:
+            current_price = 0
+        return current_price
+
+    def __get_dividends(self,ticker_symbol):
+        ticker = yf.Ticker(ticker_symbol)
+        print(ticker.dividends)
+        if ticker.dividends.empty:
+            return None, 0
+        date = ticker.dividends.index[-1]
+        div_amount = ticker.dividends.iloc[-1]
+        return date.strftime('%Y-%m-%d'),div_amount

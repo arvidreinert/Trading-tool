@@ -1,23 +1,6 @@
 import yfinance as yf
 from datetime import datetime, timedelta
 
-def search_comp(ticker_symbol):
-    ticker = yf.Ticker(ticker_symbol)
-    try:
-        current_price = ticker.history(period="1d")['Close'].iloc[-1]
-    except:
-        current_price = 0
-    return current_price
-
-def get_dividends(ticker_symbol):
-    ticker = yf.Ticker(ticker_symbol)
-    print(ticker.dividends)
-    if ticker.dividends.empty:
-        return None, 0
-    date = ticker.dividends.index[-1]
-    div_amount = ticker.dividends.iloc[-1]
-    return date.strftime('%Y-%m-%d'),div_amount
-
 def fast_tabel(symbol,dur="5d",interval="1h"):
     ticker = yf.Ticker(symbol)
     return ticker.history(period=dur,interval=interval)
