@@ -24,7 +24,6 @@ class data_chunk():
                 if x == 0:
                     row = line
                 else:
-                    print(line)
                     self.symbols[symbol]["datetimes"].append(line[0])
                     self.symbols[symbol]["closes"].append(float(line[row.index("Close")]))
                     self.symbols[symbol]["highs"].append(float(line[row.index("High")]))
@@ -38,6 +37,10 @@ class data_chunk():
             return sum(self.symbols[symbol][statistic])/len(self.symbols[symbol][statistic])
         else:
             return "error:symbol or statistic not found"
+        
+    def max_volume(self,symbol):
+        finance_data.create_data(symbol,save_as_file=True)
+        print(finance_data.data_block[symbol]["Volume"].iloc[-1],True)
     
     def get_data(self,symbol,statistic):
         if statistic in list(self.symbols[symbol]):
