@@ -62,7 +62,6 @@ class data_chunk():
 
     def __get_dividends(self,ticker_symbol):
         ticker = yf.Ticker(ticker_symbol)
-        print(ticker.dividends)
         if ticker.dividends.empty:
             return None, 0
         date = ticker.dividends.index[-1]
