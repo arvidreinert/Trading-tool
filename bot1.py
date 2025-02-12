@@ -1,8 +1,9 @@
 import read_data as rd
 import finance_data as fd
 from fisims import sim
+import time
 
-class sma_bot():
+class sma_daytrader_bot():
     def __init__(self,stocks_allowed):
         self.chunk = rd.data_chunk()
         self.boughts = {}
@@ -16,10 +17,18 @@ class sma_bot():
             if self.boughts[stock] > 0:
                 cond = True
         return cond
+    def refresh_symbol(self,stock):
+        fd.create_data(stock)
+        self.chunk.prepare_data(stock)
 
     def signal(self,stock,bought=False):
-        sma = self.chunk
+        self.refresh_symbol(stock)
+        sma = self.chunk.sma(stock)
+        print(self.chunk.get_data(stock,"volumes"),fd.search_comp(stock))
 
-bot = sma_bot(["AAPL"])
+bot = sma_daytrader_bot(["AAPL"])
 simulator = sim(10)
-bot.signal()
+start = time.perf_counter()
+bot.signal("AAPL")
+end = time.perf_counter()
+print(end-start)
