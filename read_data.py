@@ -1,5 +1,5 @@
 import csv
-import finance_data
+import create_data
 import yfinance as yf
 
 class data_chunk():
@@ -33,7 +33,7 @@ class data_chunk():
             return "error:symbol or statistic not found"
         
     def max_volume(self,symbol):
-        h = finance_data.fast_tabel(symbol)
+        h = create_data.fast_tabel(symbol)
         h = h["Volume"]
         return max(h),h.iloc[-1]
     

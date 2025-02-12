@@ -1,5 +1,5 @@
 import read_data as rd
-import finance_data as fd
+import create_data as fd
 from fisims import sim
 
 class sma_daytrader_bot():

@@ -1,6 +1,6 @@
 import read_data as rd
 from datetime import datetime
-import finance_data as fd
+import create_data as fd
 from time import sleep
 from random import uniform
 import ast
