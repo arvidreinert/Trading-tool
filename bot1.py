@@ -28,14 +28,26 @@ class sma_daytrader_bot():
         cls = self.chunk.get_data(stock,"closes")
         gain = cls[-1]-cls[0]
         stre = round(gain/sma*100,2)
-        print(stre)
         if cp < sma and stre >= 3:
-            return "buy"
+            self.boughts[stock] += 1
+            return "buy",stre
         elif cp > sma:
-            return "sell"
+            if self.boughts[stock] >= 1:
+                return "sell",stre
         if cp == sma:
-            return "sell"
+            return "hold",stre
 
 bot = sma_daytrader_bot(["AAPL"])
 simulator = sim(10)
-print(bot.signal("AAPL"))
+counter = 0
+while True:
+    if counter == 120:
+        sig = bot.signal("AAPL")
+        print(sig)
+        counter = 0
+        x = input("DO IT(Y("")/N) or c to stop simulation")
+        if x == "" or x.capitalize() == "Y":
+            simulator.execute_bot(round(sig[1]),"AAPL",sig[0])
+        if x.lower() == "c":
+            break
+    counter += 1

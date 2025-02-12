@@ -109,7 +109,13 @@ class sim():
             self.cash = float(t[1].split("=")[1])
             self.last_login = t[2]
 
-
+    def execute_bot(self,amount,symbol,order_type="hold",kind="long"):
+        if order_type == "buy":
+            return self.buy_order(symbol,amount,kind)
+        if order_type == "sell":
+            return self.sell_order(symbol,amount,kind)
+        if order_type == "hold":
+            pass
 
 """symbol = "VSE"
 chunk = rd.data_chunk()
