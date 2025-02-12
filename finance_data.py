@@ -18,9 +18,9 @@ def get_dividends(ticker_symbol):
     div_amount = ticker.dividends.iloc[-1]
     return date.strftime('%Y-%m-%d'),div_amount
 
-def fast_tabel(symbol,interval="1h"):
+def fast_tabel(symbol,dur="5d",interval="1h"):
     ticker = yf.Ticker(symbol)
-    return ticker.history(period=interval)
+    return ticker.history(period=dur,interval=interval)
 
 def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0}, interval="1h", in_past={"days":0, "hours":0, "minutes":0, "seconds":0}):
 
