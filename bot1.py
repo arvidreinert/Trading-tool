@@ -21,14 +21,21 @@ class sma_daytrader_bot():
         fd.create_data(stock,interval="1m",duration={ "days": 5,"hours": 0,"minutes": 0,"seconds": 0 })
         self.chunk.prepare_data(stock)
 
-    def signal(self,stock,bought=False):
+    def signal(self,stock):
+        cp = fd.search_comp(stock)
         self.refresh_symbol(stock)
         sma = self.chunk.sma(stock)
-        print(fd.search_comp(stock),sma)
+        cls = self.chunk.get_data(stock,"closes")
+        gain = cls[-1]-cls[0]
+        stre = round(gain/sma*100,2)
+        print(stre)
+        if cp < sma and stre >= 3:
+            return "buy"
+        elif cp > sma:
+            return "sell"
+        if cp == sma:
+            return "sell"
 
 bot = sma_daytrader_bot(["AAPL"])
 simulator = sim(10)
-start = time.perf_counter()
-bot.signal("AAPL")
-end = time.perf_counter()
-print(end-start)
+print(bot.signal("AAPL"))
