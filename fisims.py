@@ -7,6 +7,7 @@ import ast
 
 class sim():
     def __init__(self,cash):
+        self.chunk = rd.data_chunk()
         self.stocks = {}
         self.cash = cash
         self.last_login = ""
@@ -54,7 +55,11 @@ class sim():
             self.stocks[symbol]["shorts"] += amount
             kind = -1
 
-        dlay = round(uniform(0,2), 2)
+        max_v,current_c = self.chunk.max_volume(symbol)
+        dlay = round(current_c/max_v,2)
+        if dlay > 1:
+            dlay = 1
+        dlay = (1-dlay)*amount
         sleep(dlay)
         self.stocks[symbol]["orders"].append({"amount":amount,"kind":kind,"pwb":fd.search_comp(symbol)})
         self.stocks[symbol]["amount"] += amount
@@ -63,7 +68,11 @@ class sim():
         return "order completed with "+str(dlay)+" seconds of delay; price: "+str(fd.search_comp(symbol))
     
     def sell_order(self,symbol,amount,kind="long"):
-        dlay = round(uniform(0,2), 2)
+        max_v,current_c = self.chunk.max_volume(symbol)
+        dlay = round(current_c/max_v,2)
+        if dlay > 1:
+            dlay = 1
+        dlay = (1-dlay)*amount
         kl = kind=="short"
         cond = False
         if kind == "long" and self.stocks[symbol]["longs"] >= amount:
