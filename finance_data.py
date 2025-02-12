@@ -38,8 +38,9 @@ def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0
     ticker = yf.Ticker(symbol)
     h = ticker.history(start=start_date_yf, end=end_date_yf, interval=interval)
     data = yf.download(symbol, start=start_date_yf, end=end_date_yf, interval=interval)
-    filename = f"test{symbol}.csv"
+    filename = f"historic_data_{symbol}.csv"
     h.to_csv(filename)
+    """
     if len(data) == 0:
         print(f"No data downloaded for {symbol} between {start_date_yf} and {end_date_yf}")
         return
@@ -49,4 +50,4 @@ def create_data(symbol, duration={"days":60, "hours":0, "minutes":0, "seconds":0
     if len(symbol.split()) == 1:
         data.columns = ["Open", "High", "Low", "Close", "Volume"]
 
-    data.to_csv(filename, index=True)
+    data.to_csv(filename, index=True)"""
