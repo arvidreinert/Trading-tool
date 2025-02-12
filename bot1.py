@@ -18,7 +18,7 @@ class sma_daytrader_bot():
                 cond = True
         return cond
     def refresh_symbol(self,stock):
-        fd.create_data(stock)
+        fd.create_data(stock,interval="1m",duration={ "days": 5,"hours": 0,"minutes": 0,"seconds": 0 })
         self.chunk.prepare_data(stock)
 
     def signal(self,stock,bought=False):
