@@ -21,7 +21,7 @@ class sma_daytrader_bot():
         self.chunk.prepare_data(stock)
 
     def signal(self,stock):
-        cp = fd.search_comp(stock)
+        cp = self.chunk.up_to_date_price(stock)
         self.refresh_symbol(stock)
         sma = self.chunk.sma(stock)
         cls = self.chunk.get_data(stock,"closes")

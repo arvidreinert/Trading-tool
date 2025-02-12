@@ -17,7 +17,7 @@ class sim():
         print(now)
         for stock in self.stocks:
             print(True)
-            date,divs = fd.get_dividends(stock)
+            date,divs = self.chunk.excpected_dividends(stock)
             print(stock,date,divs)
             if date is None:
                 continue
@@ -40,7 +40,7 @@ class sim():
                 if order["kind"] == 0:
                     if order["is_short"]:
                         v = order["amount"]*0.05
-                gain = (order["pwb"]-fd.search_comp(stock))*order["amount"]*order["kind"]-v
+                gain = (order["pwb"]-self.chunk.up_to_date_price(stock))*order["amount"]*order["kind"]-v
                 base+=f"amount:{order["amount"]}, kind:{"long" if order["kind"] == 1 else "short" if order["kind"] == -1 else "sell"}, {"gain" if gain >= 0 else "loss"}:{gain}"
                 c += 1
             print(base)
@@ -61,11 +61,11 @@ class sim():
             dlay = 1
         dlay = (1-dlay)*amount
         sleep(dlay)
-        self.stocks[symbol]["orders"].append({"amount":amount,"kind":kind,"pwb":fd.search_comp(symbol)})
+        self.stocks[symbol]["orders"].append({"amount":amount,"kind":kind,"pwb":self.chunk.up_to_date_price(symbol)})
         self.stocks[symbol]["amount"] += amount
-        self.cash -= amount * fd.search_comp(symbol)
+        self.cash -= amount * self.chunk.up_to_date_price(symbol)
 
-        return "order completed with "+str(dlay)+" seconds of delay; price: "+str(fd.search_comp(symbol))
+        return "order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
     
     def sell_order(self,symbol,amount,kind="long"):
         max_v,current_c = self.chunk.max_volume(symbol)
@@ -88,7 +88,7 @@ class sim():
                 kind = -1
             sleep(dlay)
             self.stocks[symbol]["amount"] -= amount
-            self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":fd.search_comp(symbol),"is_short":kl})
+            self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":self.chunk.up_to_date_price(symbol),"is_short":kl})
             if kind == 1:
                 self.cash += amount * fd.search_comp(symbol)
             else:
@@ -96,7 +96,7 @@ class sim():
                 self.cash -= amount*0.05
         if self.stocks[symbol]["amount"] == 0:
             del self.stocks[symbol]
-        return "order completed with "+str(dlay)+" seconds of delay; price: "+str(fd.search_comp(symbol))
+        return "order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
 
     def save_sim(self,filename):
         with open(f"{filename}.txt", mode ='w')as file:
