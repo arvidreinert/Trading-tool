@@ -28,3 +28,4 @@ except:
             pass
     print(f"stopped after {end_time - start_time} seconds. Thats {(end_time - start_time)/60} minutes")
     simulator.portfolio()
+    simulator.save_sim("bot_test1")
