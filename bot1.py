@@ -47,4 +47,4 @@ class sma_daytrader_bot():
         elif cp == sma:
             return "hold",stre
         else:
-            return None,cp,sma
+            return None,cp,sma,cp-lb
