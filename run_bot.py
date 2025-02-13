@@ -10,6 +10,7 @@ try:
     while True:
         time.sleep(5)
         for symbol in symbols:
+            time.sleep(1)
             sig = bot.signal(symbol)
             print(sig)
             if not sig[0] == None:
