@@ -6,9 +6,11 @@ class sma_daytrader_bot():
     def __init__(self,stocks_allowed):
         self.chunk = rd.data_chunk()
         self.boughts = {}
+        self.lst_p = {}
         for stock in stocks_allowed:
             self.chunk.add_symbol(stock)
             self.boughts[stock] = 0
+            self.lst_p[stock] = 0
 
     def is_bought(self,stock):
         cond = False
@@ -28,13 +30,15 @@ class sma_daytrader_bot():
         cls = self.chunk.get_data(stock,"closes")
         gain = cls[-1]-cls[0]
         stre = round(gain/sma*100,2)
+        lb = self.lst_p[stock]
         if cp < sma:
             if self.boughts[stock] <= 2:
                 self.boughts[stock] += 1
+                self.lst_p[stock] = cp
                 return "buy",stre
             else:
                 return None,cp,sma
-        elif cp > sma:
+        elif cp > sma or cp > lb and lb != 0:
             if self.boughts[stock] >= 1:
                 self.boughts[stock] -= 1
                 return "sell",stre
