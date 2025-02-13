@@ -12,12 +12,11 @@ try:
         for symboll in symbols:
             time.sleep(1)
             sig = bot.signal(symboll)
-            print(sig)
+            if len(sig) >= 5:
+                print(f"{symboll}:{sig[0]},price:{sig[1]},gain/loss:{sig[3]} or {round(float(sig[3])/float(sig[1]),4)}%")
             if sig[0] == "buy":
-                print(simulator.execute_bot(round(abs(sig[1])),symboll,sig[0]))
-            print(sig[0]=="sell")
+                print(simulator.execute_bot(1,symboll,sig[0]))
             if sig[0] == "sell":
-                print("test")
                 print(simulator.execute_bot(simulator.stocks[symboll]["longs"],symboll,"sell"))
                 break
 except:
