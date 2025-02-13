@@ -31,21 +31,16 @@ class sma_daytrader_bot():
         gain = cls[-1]-cls[0]
         stre = round(gain/sma*100,2)
         lb = self.lst_p[stock]
-        print(cp-lb > 0 and lb != 0)
-        if cp < sma:
-            if self.boughts[stock] <= 2:
-                self.boughts[stock] += 1
-                self.lst_p[stock] = cp
-                return "buy",stre
-            else:
-                return None,cp,sma,cp-lb
-        elif cp > sma or cp-lb > 0 and lb != 0:
-            if self.boughts[stock] >= 1:
-                self.boughts[stock] -= 1
-                return "sell",stre
-            else:
-                return None,cp,sma,cp-lb
-        elif cp == sma:
-            return "hold",stre
+        sell = cp-lb > 0 and lb != 0
+        x = cp >= sma or sell or cp-lb <= -0.3
+        print(x and self.boughts[stock] >= 1)
+        if cp < sma and not x and self.boughts[stock] <= 2:
+            self.boughts[stock] += 1
+            self.lst_p[stock] = cp
+            return "buy",stre
+        elif x and self.boughts[stock] >= 1:
+            self.boughts[stock] -= 1
+            print("selling----------------------------------------------")
+            return "sell",stre
         else:
-            return None,cp,sma,cp-lb
+            return "hold",cp,sma,cp-lb
