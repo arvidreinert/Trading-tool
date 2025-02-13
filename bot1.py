@@ -43,7 +43,7 @@ class sma_daytrader_bot():
                 self.boughts[stock] -= 1
                 return "sell",stre
             else:
-                return None,cp,sma
+                return None,cp,sma,cp-lb
         elif cp == sma:
             return "hold",stre
         else:
