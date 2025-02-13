@@ -38,7 +38,7 @@ class sma_daytrader_bot():
                 return "buy",stre
             else:
                 return None,cp,sma,cp-lb
-        elif cp > sma or cp > lb and lb != 0:
+        elif cp > sma or cp-lb > 0 and lb != 0:
             if self.boughts[stock] >= 1:
                 self.boughts[stock] -= 1
                 return "sell",stre
