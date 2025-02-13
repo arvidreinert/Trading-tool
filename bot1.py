@@ -33,12 +33,15 @@ class sma_daytrader_bot():
         lb = self.lst_p[stock]
         sell = cp-lb > 0 and lb != 0
         x = cp >= sma or sell or cp-lb <= -0.3
+
         if cp < sma and not x and self.boughts[stock] <= 10:
             self.boughts[stock] += 1
             self.lst_p[stock] = cp
             return "buy",stre
+        
         elif x and self.boughts[stock] >= 1:
             self.boughts[stock] -= 1
             return "sell",stre
+        
         else:
             return "hold",cp,sma,cp-lb,stre
