@@ -20,3 +20,4 @@ try:
 except:
     end_time = time.perf_counter()
     print(f"stopped after {end_time - start_time} seconds. Thats {(end_time - start_time)/60} minutes")
+    simulator.portfolio()
