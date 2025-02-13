@@ -1,7 +1,7 @@
 from bot1 import *
 import time
 
-symbols = ["AAPL","GOOG","NVDA","MSFT","META","GAN","SIE.DE","UBSG.SW"]
+symbols = ["SIE.DE","UBSG.SW"]
 bot = sma_daytrader_bot(symbols)
 simulator = sim(10)
 counter = 0
