@@ -65,7 +65,7 @@ class sim():
         self.stocks[symbol]["amount"] += amount
         self.cash -= amount * self.chunk.up_to_date_price(symbol)
 
-        return "order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
+        return symbol+" buy order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
     
     def sell_order(self,symbol,amount,kind="long"):
         max_v,current_c = self.chunk.max_volume(symbol)
@@ -96,7 +96,7 @@ class sim():
                 self.cash -= amount*0.05
         if self.stocks[symbol]["amount"] == 0:
             del self.stocks[symbol]
-        return "order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
+        return symbol+":sell order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
 
     def save_sim(self,filename):
         with open(f"{filename}.txt", mode ='w')as file:

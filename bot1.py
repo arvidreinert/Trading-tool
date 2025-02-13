@@ -16,6 +16,7 @@ class sma_daytrader_bot():
             if self.boughts[stock] > 0:
                 cond = True
         return cond
+    
     def refresh_symbol(self,stock):
         fd.create_data(stock,interval="1m",duration={ "days": 5,"hours": 0,"minutes": 0,"seconds": 0 })
         self.chunk.prepare_data(stock)
@@ -27,11 +28,19 @@ class sma_daytrader_bot():
         cls = self.chunk.get_data(stock,"closes")
         gain = cls[-1]-cls[0]
         stre = round(gain/sma*100,2)
-        if cp < sma and stre >= 3:
-            self.boughts[stock] += 1
-            return "buy",stre
+        if cp < sma:
+            if self.boughts[stock] <= 50:
+                self.boughts[stock] += 1
+                return "buy",stre
+            else:
+                return None,cp,sma
         elif cp > sma:
             if self.boughts[stock] >= 1:
+                self.boughts[stock] -= 1
                 return "sell",stre
-        if cp == sma:
+            else:
+                return None,cp,sma
+        elif cp == sma:
             return "hold",stre
+        else:
+            return None,cp,sma
