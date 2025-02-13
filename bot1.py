@@ -31,6 +31,7 @@ class sma_daytrader_bot():
         gain = cls[-1]-cls[0]
         stre = round(gain/sma*100,2)
         lb = self.lst_p[stock]
+        print(cp-lb > 0 and lb != 0)
         if cp < sma:
             if self.boughts[stock] <= 2:
                 self.boughts[stock] += 1

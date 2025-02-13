@@ -40,7 +40,7 @@ class sim():
                 if order["kind"] == 0:
                     if order["is_short"]:
                         v = order["amount"]*0.05
-                gain = (order["pwb"]-self.chunk.up_to_date_price(stock))*order["amount"]*order["kind"]-v
+                gain = (self.chunk.up_to_date_price(stock)-order["pwb"])*order["amount"]*order["kind"]-v
                 base+=f"amount:{order["amount"]}, kind:{"long" if order["kind"] == 1 else "short" if order["kind"] == -1 else "sell"}, {"gain" if gain >= 0 else "loss"}:{gain}"
                 c += 1
             print(base)
