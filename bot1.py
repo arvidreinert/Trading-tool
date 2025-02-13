@@ -29,7 +29,7 @@ class sma_daytrader_bot():
         gain = cls[-1]-cls[0]
         stre = round(gain/sma*100,2)
         if cp < sma:
-            if self.boughts[stock] <= 50:
+            if self.boughts[stock] <= 2:
                 self.boughts[stock] += 1
                 return "buy",stre
             else:
