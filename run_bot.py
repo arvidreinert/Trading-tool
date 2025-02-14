@@ -2,7 +2,7 @@ from bot1 import *
 import time
 import traceback
 
-symbols = ["XRP-USD"]
+symbols = ["XRP-USD","SOL-USD","USDT-USD","DOGE-USD","UBSG.SW"]
 bot = sma_daytrader_bot(symbols)
 simulator = sim(10)
 counter = 0

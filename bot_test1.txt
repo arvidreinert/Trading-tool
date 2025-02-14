@@ -1,3 +1,3 @@
-stocks={'XRP-USD': {'amount': 2, 'longs': 2, 'shorts': 0, 'orders': [{'amount': 1, 'kind': 1, 'pwb': 2.6561267375946045}, {'amount': 1, 'kind': 1, 'pwb': 2.6561267375946045}, {'amount': 0, 'kind': 0, 'pwb': 2.673840284347534, 'is_short': False}]}}
-cash=4.687746524810791
+stocks={'DOGE-USD': {'amount': 11, 'longs': 11, 'shorts': 0, 'orders': [{'amount': 1, 'kind': 1, 'pwb': 0.2689143121242523}, {'amount': 1, 'kind': 1, 'pwb': 0.2689143121242523}, {'amount': 1, 'kind': 1, 'pwb': 0.2689143121242523}, {'amount': 1, 'kind': 1, 'pwb': 0.2689143121242523}, {'amount': 1, 'kind': 1, 'pwb': 0.2687187194824219}, {'amount': 1, 'kind': 1, 'pwb': 0.2687187194824219}, {'amount': 1, 'kind': 1, 'pwb': 0.2687187194824219}, {'amount': 1, 'kind': 1, 'pwb': 0.2687187194824219}, {'amount': 1, 'kind': 1, 'pwb': 0.2687187194824219}, {'amount': 1, 'kind': 1, 'pwb': 0.2687187194824219}, {'amount': 1, 'kind': 1, 'pwb': 0.2682020366191864}, {'amount': 0, 'kind': 0, 'pwb': 0.27129504084587097, 'is_short': False}]}}
+cash=6.896750122308731
 2025-02-14
