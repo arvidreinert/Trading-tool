@@ -1,3 +1,3 @@
-stocks={}
-cash=10
+stocks={'XRP-USD': {'amount': 11, 'longs': 0, 'shorts': 0, 'orders': [{'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.562358856201172}, {'amount': 1, 'kind': 1, 'pwb': 2.56156849861145}, {'amount': 1, 'kind': 1, 'pwb': 2.56156849861145}, {'amount': 1, 'kind': 1, 'pwb': 2.56156849861145}]}}
+cash=-18.183576345443726
 2025-02-14
