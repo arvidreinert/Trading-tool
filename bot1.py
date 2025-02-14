@@ -40,7 +40,7 @@ class sma_daytrader_bot():
             return "buy",stre
         
         elif x and self.boughts[stock] >= 1:
-            self.boughts[stock] -= 1
+            self.boughts[stock] = 0
             return "sell",stre
         
         else:
