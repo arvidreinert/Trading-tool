@@ -25,6 +25,7 @@ except:
     traceback.print_exc()
     end_time = time.perf_counter()
     for symboll in symbols:
+        print(simulator.cash)
         if symboll in simulator.stocks:
             time.sleep(5)
             print("selling stock: "+symboll+str(f"  {symbols.index(symboll)}/{len(symbols)}"))
