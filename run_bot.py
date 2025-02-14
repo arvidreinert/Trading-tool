@@ -1,7 +1,7 @@
 from bot1 import *
 import time
 
-symbols = ["GOOG","AAPL","UBER","GAN"]
+symbols = ["ETH-USD"]
 bot = sma_daytrader_bot(symbols)
 simulator = sim(10)
 counter = 0
