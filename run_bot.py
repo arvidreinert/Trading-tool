@@ -2,7 +2,7 @@ from bot2 import *
 import time
 import traceback
 
-symbols = ["XRP-USD","SOL-USD","USDT-USD","DOGE-USD","UBSG.SW"]
+symbols = ["XRP-USD","SOL-USD","USDT-USD","DOGE-USD"]
 bot = intraday_bot(symbols)
 simulator = sim(10)
 counter = 0
@@ -23,7 +23,6 @@ try:
 except:
     traceback.print_exc()
     end_time = time.perf_counter()
-    print(simulator.stocks,bot.boughts)
     for symboll in symbols:
         if symboll in simulator.stocks:
             time.sleep(5)
