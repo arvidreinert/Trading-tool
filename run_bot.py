@@ -9,6 +9,7 @@ counter = 0
 start_time = time.perf_counter()
 try:
     while True:
+        print(simulator.cash)
         time.sleep(5)
         for symboll in symbols:
             time.sleep(1)
