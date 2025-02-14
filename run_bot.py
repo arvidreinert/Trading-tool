@@ -8,6 +8,10 @@ simulator = sim(10)
 counter = 0
 start_time = time.perf_counter()
 try:
+    simulator.load_sim("bot_test2")
+except:
+    pass
+try:
     while True:
         print(simulator.cash)
         time.sleep(5)
