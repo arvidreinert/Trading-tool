@@ -9,7 +9,7 @@ counter = 0
 start_time = time.perf_counter()
 try:
     while True:
-        time.sleep(7)
+        time.sleep(5)
         for symboll in symbols:
             time.sleep(1)
             sig = bot.signal(symboll)

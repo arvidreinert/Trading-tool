@@ -56,19 +56,29 @@ class sim():
             kind = -1
 
         max_v,current_c = self.chunk.max_volume(symbol)
+        while max_v == 0:
+            sleep(5)
+            max_v,current_c = self.chunk.max_volume(symbol)
         dlay = round(current_c/max_v,2)
         if dlay > 1:
             dlay = 1
         dlay = (1-dlay)*amount
         sleep(dlay)
-        self.stocks[symbol]["orders"].append({"amount":amount,"kind":kind,"pwb":self.chunk.up_to_date_price(symbol)})
+        pri = float(self.chunk.up_to_date_price(symbol))
+        while pri == 0:
+            sleep(5)
+            pri = float(self.chunk.up_to_date_price(symbol))
+        self.stocks[symbol]["orders"].append({"amount":amount,"kind":kind,"pwb":pri})
         self.stocks[symbol]["amount"] += amount
-        self.cash -= amount * self.chunk.up_to_date_price(symbol)
+        self.cash -= amount * pri
 
-        return symbol+" buy order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
+        return symbol+" buy order completed with "+str(dlay)+" seconds of delay; price: "+str(pri)
     
     def sell_order(self,symbol,amount,kind="long"):
         max_v,current_c = self.chunk.max_volume(symbol)
+        while max_v == 0:
+            sleep(5)
+            max_v,current_c = self.chunk.max_volume(symbol)
         dlay = round(current_c/max_v,2)
         if dlay > 1:
             dlay = 1
@@ -88,6 +98,9 @@ class sim():
                 kind = -1
             sleep(dlay)
             pri = float(self.chunk.up_to_date_price(symbol))
+            while pri == 0:
+                sleep(5)
+                pri = float(self.chunk.up_to_date_price(symbol))
             self.stocks[symbol]["amount"] -= amount
             self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":pri,"is_short":kl})
             if kind == 1:

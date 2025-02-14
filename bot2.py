@@ -1,6 +1,7 @@
 import read_data as rd
 import create_data as fd
 from fisims import sim
+import time
 
 class intraday_bot():
     def __init__(self,stocks_allowed):
@@ -21,7 +22,13 @@ class intraday_bot():
 
     def signal(self,stock):
         cp = self.chunk.up_to_date_price(stock)
+        while cp == 0:
+            time.sleep(5)
+            cp = self.chunk.up_to_date_price(stock)
         std = fd.fast_tabel(stock,dur="1d",interval="1m")
+        while len(std) == 0:
+            time.sleep(5)
+            std = fd.fast_tabel(stock,dur="1d",interval="1m")
         cls = std["Close"]
         sma = sum(cls)/len(cls)
         ops = std["Open"]
