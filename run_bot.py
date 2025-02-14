@@ -9,7 +9,7 @@ counter = 0
 start_time = time.perf_counter()
 try:
     while True:
-        time.sleep(5)
+        time.sleep(7)
         for symboll in symbols:
             time.sleep(1)
             sig = bot.signal(symboll)
@@ -23,8 +23,11 @@ try:
 except:
     traceback.print_exc()
     end_time = time.perf_counter()
+    print(simulator.stocks,bot.boughts)
     for symboll in symbols:
         if symboll in simulator.stocks:
+            time.sleep(5)
+            print("selling stock: "+symboll+str(f"  {symbols.index(symboll)}/{len(symbols)}"))
             print(simulator.execute_bot(bot.boughts[symboll],symboll,"sell"))
     print(f"stopped after {end_time - start_time} seconds. Thats {(end_time - start_time)/60} minutes")
     simulator.portfolio()

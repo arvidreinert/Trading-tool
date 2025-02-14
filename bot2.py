@@ -29,8 +29,8 @@ class intraday_bot():
         stre = round((cp-op1)/op1*100,3)
         lb = self.lst_p[stock]
         p = round(float(cp-lb)/float(cp)*100,4)
-        sell = p>0.02 and lb != 0 or stre < 0
-        x = sell or p <= -0.5
+        sell = p>0.1 and lb != 0 or stre < 0
+        x = sell or p <= -0.1
         y = cp < sma or stre >= 0.5
         if y and not x and self.boughts[stock] <= 10:
             self.boughts[stock] += 1

@@ -87,16 +87,17 @@ class sim():
                 self.stocks[symbol]["shorts"] -= amount
                 kind = -1
             sleep(dlay)
+            pri = float(self.chunk.up_to_date_price(symbol))
             self.stocks[symbol]["amount"] -= amount
-            self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":self.chunk.up_to_date_price(symbol),"is_short":kl})
+            self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":pri,"is_short":kl})
             if kind == 1:
-                self.cash += amount * self.chunk.up_to_date_price(symbol)
+                self.cash += amount * pri
             else:
-                self.cash += amount * self.chunk.up_to_date_price(symbol)
+                self.cash += amount * pri
                 self.cash -= amount*0.05
         if self.stocks[symbol]["amount"] == 0:
             del self.stocks[symbol]
-        return symbol+":sell order completed with "+str(dlay)+" seconds of delay; price: "+str(amount * self.chunk.up_to_date_price(symbol))
+        return symbol+":sell order completed with "+str(dlay)+" seconds of delay; price: "+str(amount * pri)
 
     def save_sim(self,filename):
         with open(f"{filename}.txt", mode ='w')as file:
