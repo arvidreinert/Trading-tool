@@ -31,7 +31,8 @@ class sma_daytrader_bot():
         gain = cls[-1]-cls[0]
         stre = round(gain/sma*100,2)
         lb = self.lst_p[stock]
-        sell = cp-lb > 0.005 and lb != 0 or stre < 0
+        p = round(float(cp-lb)/float(cp)*100,4)
+        sell = p>1 and lb != 0 or stre < 0
         x = sell or cp-lb <= -0.3
         y = cp < sma or stre >= 0
         if y and not x and self.boughts[stock] <= 10:
