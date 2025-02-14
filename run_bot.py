@@ -21,11 +21,11 @@ try:
                 print(simulator.execute_bot(1,symboll,sig[0]))
             if sig[0] == "sell":
                 print(simulator.execute_bot(bot.boughts[symboll],symboll,"sell"))
+                bot.boughts[symboll] = 0
 except:
     traceback.print_exc()
     end_time = time.perf_counter()
     for symboll in symbols:
-        print(simulator.cash)
         if symboll in simulator.stocks:
             time.sleep(5)
             print("selling stock: "+symboll+str(f"  {symbols.index(symboll)}/{len(symbols)}"))

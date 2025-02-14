@@ -105,11 +105,10 @@ class sim():
             self.stocks[symbol]["orders"].append({"amount":amount,"kind":0,"pwb":pri,"is_short":kl})
             if kind == 1:
                 self.cash += amount * pri
-                print("Erfolg",amount * pri,amount,pri)
             else:
                 self.cash += amount * pri
                 self.cash -= amount*0.05
-        elif self.stocks[symbol]["amount"] == 0:
+        if self.stocks[symbol]["amount"] == 0:
             del self.stocks[symbol]
         return symbol+":sell order completed with "+str(dlay)+" seconds of delay; price: "+str(amount * pri)
 
