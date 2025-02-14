@@ -23,7 +23,8 @@ except:
     end_time = time.perf_counter()
     for symboll in symbols:
         try:
-            print(simulator.execute_bot(simulator.stocks[symboll]["longs"],symboll,"sell"))
+            if bot.boughts[symboll] >= 1:
+                print(simulator.execute_bot(bot.boughts[symboll],symboll,"sell"))
         except:
             pass
     print(f"stopped after {end_time - start_time} seconds. Thats {(end_time - start_time)/60} minutes")
