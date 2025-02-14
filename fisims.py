@@ -96,7 +96,7 @@ class sim():
                 self.cash -= amount*0.05
         if self.stocks[symbol]["amount"] == 0:
             del self.stocks[symbol]
-        return symbol+":sell order completed with "+str(dlay)+" seconds of delay; price: "+str(self.chunk.up_to_date_price(symbol))
+        return symbol+":sell order completed with "+str(dlay)+" seconds of delay; price: "+str(amount * self.chunk.up_to_date_price(symbol))
 
     def save_sim(self,filename):
         with open(f"{filename}.txt", mode ='w')as file:

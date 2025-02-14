@@ -1,9 +1,9 @@
-from bot1 import *
+from bot2 import *
 import time
 import traceback
 
 symbols = ["XRP-USD","SOL-USD","USDT-USD","DOGE-USD","UBSG.SW"]
-bot = sma_daytrader_bot(symbols)
+bot = intraday_bot(symbols)
 simulator = sim(10)
 counter = 0
 start_time = time.perf_counter()
@@ -14,7 +14,7 @@ try:
             time.sleep(1)
             sig = bot.signal(symboll)
             if len(sig) >= 5:
-                print(f"{symboll}:{sig[0]},price:{sig[1]},stre:{sig[4]},gain/loss:{sig[3]} or {round(float(sig[3])/float(sig[1])*100,4)}%")
+                print(f"{symboll}:{sig[0]},price:{sig[1]},stre:{sig[4]}%,gain/loss:{sig[3]} or {round(float(sig[3])/float(sig[1])*100,4)}%")
                 print(bot.boughts)
             if sig[0] == "buy":
                 print(simulator.execute_bot(1,symboll,sig[0]))
@@ -24,11 +24,8 @@ except:
     traceback.print_exc()
     end_time = time.perf_counter()
     for symboll in symbols:
-        try:
-            if bot.boughts[symboll] >= 1:
-                print(simulator.execute_bot(bot.boughts[symboll],symboll,"sell"))
-        except:
-            pass
+        if symboll in simulator.stocks:
+            print(simulator.execute_bot(bot.boughts[symboll],symboll,"sell"))
     print(f"stopped after {end_time - start_time} seconds. Thats {(end_time - start_time)/60} minutes")
     simulator.portfolio()
-    simulator.save_sim("bot_test1")
+    simulator.save_sim("bot_test2")
