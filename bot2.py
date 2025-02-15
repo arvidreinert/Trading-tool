@@ -29,16 +29,16 @@ class intraday_bot():
         while len(std) == 0:
             time.sleep(5)
             std = fd.fast_tabel(stock,dur="1d",interval="1m")
-        cls = std["Close"]
+        cls = std["Close"][-3:]
         sma = sum(cls)/len(cls)
-        ops = std["Open"]
+        ops = std["Open"][-3:]
         op1 = ops.iloc[0]
-        stre = round((cp-op1)/op1*100,3)
+        stre = round((cp-op1)/cp*100,3)
         lb = self.lst_p[stock]
         p = round(float(cp-lb)/float(cp)*100,4)
-        sell = p>0.1 and lb != 0 or stre < 0
+        sell = p>0.1 and lb != 0 or stre < 0.05
         x = sell or p <= -0.1
-        y = cp < sma or stre >= 0.5
+        y = cp < sma or stre >= 0.05
         if y and not x and self.boughts[stock] <= 10:
             self.boughts[stock] += 1
             self.lst_p[stock] = cp

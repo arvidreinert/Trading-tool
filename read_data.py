@@ -42,7 +42,7 @@ class data_chunk():
             return self.symbols[symbol][statistic]
         else:
             return "error:symbol or statistic not found"
-    
+
     def get_all_data(self,symbol):
         return self.symbols[symbol]
     
